@@ -1,0 +1,113 @@
+global:
+  istioIntegration:
+  # Discussion on which setting to use: https://solo-io-corp.slack.com/archives/CEDCS8TAP/p1712328593521789?thread_ts=1712311508.522479&cid=CEDCS8TAP
+    enabled: true
+    enableAutoMtls: false
+  istioSDS:
+    enabled: true
+  # glooMtls:
+  #   istioProxy:
+  #     image:
+  #       registry: us-docker.pkg.dev/gloo-mesh/istio-9e372154a7a6
+  #       repository: proxyv2
+  #       tag: 1.20.2-solo
+  #   sds:
+  #     image:
+  #       repository: sds-ee
+  #       tag: 1.16.5
+  extensions:
+    # Rate-Limit Configuration
+    rateLimit:
+      enabled: true
+      deployment:
+        logLevel: debug
+
+    # Ext-Auth Configuration
+    extAuth:
+      enabled: true
+      deployment:
+        logLevel: debug
+
+gloo:
+  logLevel: info
+  validation:
+      allowWarnings: true
+      alwaysAcceptResources: false
+  gloo:
+    disableLeaderElection: true
+    deployment:
+      replicas: 1
+      customEnv:
+        # The portal plugin is disabled by default, so must explicitly enable it
+        - name: GG_EXPERIMENTAL_PORTAL_PLUGIN
+          value: "true"
+      livenessProbeEnabled: true
+      stats:
+        enabled: "true"
+        serviceMonitorEnabled: "true"
+        podMonitorEnabled: "true"   
+  discovery:
+    enabled: true
+    # set to either WHITELIST, BLACKLIST, or DISABLED
+    # WHITELIST is the default value
+    fdsMode: WHITELIST
+    fdsOptions:
+      # set to false to disable automated GraphQL schema generation as part of FDS.
+      # true is the default value (enabled)
+      graphqlEnabled: false
+
+  kubeGateway:
+    enabled: true
+    gatewayParameters:
+      glooGateway:
+        istio:
+          istioProxyContainer:
+            istioDiscoveryAddress: istiod-1-22.istio-system.svc:15012
+            istioMetaClusterId: gm-demo-single
+            istioMetaMeshId: gm-demo-single
+  gatewayProxies:
+    gatewayProxy:
+      disabled: false
+      healthyPanicThreshold: 0
+      # gatewaySettings:
+      #   # Disable the default Edge Gateway CRs from being created
+      #   enabled: false
+      #   disableGeneratedGateways: true
+      kind:
+        deployment:
+          replicas: 1
+      service:
+        # Set this to different ports, so we can use port 80 on our K8S Gateway API proxy ....
+        httpPort: 81
+        httpsFirst: true
+        httpsPort: 444
+        type: LoadBalancer
+      # gatewaySettings:
+      #   accessLoggingService:
+      #     accessLog:
+      #     - fileSink:
+      #         path: /dev/stdout
+      #         stringFormat: ""
+      istioDiscoveryAddress: "istiod-1-22.istio-system.svc:15012"
+      istioMetaClusterId: gm-demo-single
+      istioMetaMeshId: gm-demo-single
+observability:
+  enabled: false
+
+prometheus:
+  # setting to false will disable prometheus, removing it from Gloo's chart dependencies
+  enabled: true
+
+grafana:
+  # setting to false will disable grafana, removing it from Gloo's chart dependencies
+  defaultInstallationEnabled: true
+
+# This demo does not deal with Gloo Federation, so we disable the components to simplify the installation
+gloo-fed:
+  enabled: false
+  glooFedApiserver:
+    enable: false
+
+gateway-portal-web-server:
+  # Enable the sub-chart for the Portal webserver
+  enabled: true

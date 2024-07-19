@@ -8,13 +8,14 @@ metadata:
 spec:
   virtualHost:
     domains:
-    - 'api.example.com'
+    - 'api.example.com:81'
     routes:
     - matchers:
       - prefix: /httpbin/
       routeAction:
         single:
           upstream:
+            # name: httpbin-8000-mtls
             name: default-httpbin-8000
             namespace: gloo-system 
       options:

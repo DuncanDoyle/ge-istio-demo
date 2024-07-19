@@ -1,33 +1,20 @@
 global:
   istioIntegration:
-  # Discussion on which setting to use: https://solo-io-corp.slack.com/archives/CEDCS8TAP/p1712328593521789?thread_ts=1712311508.522479&cid=CEDCS8TAP
     enabled: true
     enableAutoMtls: false
   istioSDS:
     enabled: true
-  # glooMtls:
-  #   istioProxy:
-  #     image:
-  #       registry: us-docker.pkg.dev/gloo-mesh/istio-9e372154a7a6
-  #       repository: proxyv2
-  #       tag: 1.20.2-solo
-  #   sds:
-  #     image:
-  #       repository: sds-ee
-  #       tag: 1.16.5
   extensions:
     # Rate-Limit Configuration
     rateLimit:
       enabled: true
       deployment:
         logLevel: debug
-
     # Ext-Auth Configuration
     extAuth:
       enabled: true
       deployment:
         logLevel: debug
-
 gloo:
   logLevel: info
   validation:

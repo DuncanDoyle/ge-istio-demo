@@ -1,7 +1,7 @@
 apiVersion: gloo.solo.io/v1
 kind: Upstream
 metadata:
-  name: httpbin-8000-mtls
+  name: httpbin-8000
   namespace: gloo-system
 spec:
   discoveryMetadata:
@@ -11,6 +11,6 @@ spec:
     selector:
       app: httpbin
     serviceName: httpbin
-    serviceNamespace: default
+    serviceNamespace: httpbin
     servicePort: 8000
   

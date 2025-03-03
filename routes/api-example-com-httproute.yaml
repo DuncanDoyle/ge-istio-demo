@@ -25,14 +25,14 @@ spec:
       backendRefs:
       # Delegate to HttpBin service in Mesh
       # - name: httpbin
-      #   namespace: default
+      #   namespace: httpbin
       #   port: 8000
-      - group: gloo.solo.io
-        kind: Upstream
-        name: httpbin-8000-mtls
-        namespace: gloo-system
+      - name: httpbin.mesh.internal.com
+        port: 8000
+        kind: Hostname
+        group: networking.istio.io
+
       # - group: gloo.solo.io
       #   kind: Upstream
-      #   name: default-httpbin-8000
+      #   name: httpbin-8000-mtls
       #   namespace: gloo-system
-        

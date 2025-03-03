@@ -1,7 +1,7 @@
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
-  name: vs
+  name: api-example-com
   namespace: gloo-system
   labels:
     app: httpbin
@@ -16,7 +16,7 @@ spec:
         single:
           upstream:
             # name: httpbin-8000-mtls
-            name: default-httpbin-8000
+            name: httpbin-8000
             namespace: gloo-system 
       options:
         prefixRewrite: /

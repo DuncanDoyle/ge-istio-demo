@@ -79,15 +79,15 @@ extAuthService:
       # Replace with a random string to use to generate hash values for other keys
       secretKey: "ThisIsSecret"
 glooPortalServer:
-  enabled: true
-  apiKeyStorage:
-    # Use the local gloo-mesh Redis for backing storage
-    redis:
-      enabled: true
-      address: redis.gloo-mesh:6379
-    # Path for API key storage config file in the gloo-mesh-addons backing Redis
-    configPath: /etc/redis-client-config/config.yaml
-    # Replace with a random string to use to generate hash values for other keys
-    secretKey: "ThisIsSecret"
-rateLimiter:
-  enabled: true
+  enabled: false
+#   apiKeyStorage:
+#     # Use the local gloo-mesh Redis for backing storage
+#     redis:
+#       enabled: true
+#       address: redis.gloo-mesh:6379
+#     # Path for API key storage config file in the gloo-mesh-addons backing Redis
+#     configPath: /etc/redis-client-config/config.yaml
+#     # Replace with a random string to use to generate hash values for other keys
+#     secretKey: "ThisIsSecret"
+# rateLimiter:
+#   enabled: true
